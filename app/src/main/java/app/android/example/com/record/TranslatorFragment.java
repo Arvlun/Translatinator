@@ -33,10 +33,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Arvid on 2016-11-24.
- */
-
 //TODO: fixa lutnings grejen, krånglar med tts (se onResume, onPause) eller shurdown efter den sagt ord och sen skapa en ny när man trycker på knappen;
 // Activity app.android.example.com.record.MainActivity has leaked ServiceConnection android.speech.tts.TextToSpeech$Connection@da76a4c that was originally bound here
 //Github test  comment - again - and again - and again
