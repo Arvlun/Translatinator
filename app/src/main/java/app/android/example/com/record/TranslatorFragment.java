@@ -39,7 +39,7 @@ import org.json.JSONObject;
 
 //TODO: fixa lutnings grejen, krånglar med tts (se onResume, onPause) eller shurdown efter den sagt ord och sen skapa en ny när man trycker på knappen;
 // Activity app.android.example.com.record.MainActivity has leaked ServiceConnection android.speech.tts.TextToSpeech$Connection@da76a4c that was originally bound here
-//Github test  comment - again
+//Github test  comment - again - and again
 
 public class TranslatorFragment extends Fragment {
 
