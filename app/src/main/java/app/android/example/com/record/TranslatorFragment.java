@@ -19,10 +19,13 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -45,6 +48,7 @@ public class TranslatorFragment extends Fragment {
     private final int REQ_CODE_SPEECH_INPUT = 100;
     public TextToSpeech t1;
     private ImageButton b1;
+    private ShareActionProvider menuShareActionProvider;
 
     public TranslatorFragment() {}
 
@@ -57,7 +61,16 @@ public class TranslatorFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.sharemenu, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+        menuShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+    }
+    private Intent shareForcastIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, txtSpeechInput.getText().toString() + " - " + txtSpeechOutput.getText().toString());
+        return shareIntent;
     }
 
     @Override
@@ -279,6 +292,9 @@ public class TranslatorFragment extends Fragment {
         protected void onPostExecute(String res) {
             //dosomething with res
             txtSpeechOutput.setText(res);
+            if ((txtSpeechInput.getText().toString() != null) && (txtSpeechOutput.getText().toString() != null)) {
+                menuShareActionProvider.setShareIntent(shareForcastIntent());
+            }
             t1.speak(res, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
