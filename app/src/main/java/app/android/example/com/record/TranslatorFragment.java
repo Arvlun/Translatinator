@@ -1,6 +1,7 @@
 package app.android.example.com.record;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.speech.tts.TextToSpeech;
@@ -28,6 +29,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +49,7 @@ public class TranslatorFragment extends Fragment {
     private ImageButton btnSpeak;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     public TextToSpeech t1;
-    private ImageButton b1;
+    private ImageButton btnTalk;
     private ShareActionProvider menuShareActionProvider;
 
     public TranslatorFragment() {}
@@ -81,7 +83,9 @@ public class TranslatorFragment extends Fragment {
         txtSpeechInput = (TextView) transView.findViewById(R.id.txtSpeechInput);
         txtSpeechOutput = (TextView) transView.findViewById(R.id.txtSpeechOutput);
         btnSpeak = (ImageButton) transView.findViewById(R.id.btnSpeak);
-        b1 = (ImageButton) transView.findViewById(R.id.btnTalk);
+        btnTalk = (ImageButton) transView.findViewById(R.id.btnTalk);
+        Button navTop = (Button) transView.findViewById(R.id.topbutton);
+
 
         t1=new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {
             @Override
@@ -92,7 +96,17 @@ public class TranslatorFragment extends Fragment {
             }
         });
 
-        b1.setOnClickListener(new View.OnClickListener() {
+        navTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("Button", "Top Button");
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.container, new ToplistFragment());
+                ft.commit();
+            }
+        });
+
+        btnTalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String toSpeak = txtSpeechInput.getText().toString();
@@ -292,7 +306,7 @@ public class TranslatorFragment extends Fragment {
         protected void onPostExecute(String res) {
             //dosomething with res
             txtSpeechOutput.setText(res);
-            if ((txtSpeechInput.getText().toString() != null) && (txtSpeechOutput.getText().toString() != null)) {
+            if ((!txtSpeechInput.getText().toString().equals("") ) && (!txtSpeechOutput.getText().toString().equals(""))) {
                 menuShareActionProvider.setShareIntent(shareForcastIntent());
             }
             t1.speak(res, TextToSpeech.QUEUE_FLUSH, null);
