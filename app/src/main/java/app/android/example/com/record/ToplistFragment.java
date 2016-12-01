@@ -2,6 +2,11 @@ package app.android.example.com.record;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,11 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import app.android.example.com.record.db.TransDBcontract;
 
 /**
  * Created by Arvid on 2016-11-28.
@@ -52,6 +60,8 @@ public class ToplistFragment extends Fragment {
 
         View rView = inflater.inflate(R.layout.fragment_toplist, container, false);
         Button navTrans = (Button) rView.findViewById(R.id.transbutton);
+        Button savePhrase = (Button) rView.findViewById(R.id.savePhraseButton);
+        final EditText phraseToSave = (EditText) rView.findViewById(R.id.textPhrase);
 
         navTrans.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,10 +73,49 @@ public class ToplistFragment extends Fragment {
             }
         });
 
+        savePhrase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("Button", "SAVE phrase Button" + phraseToSave.getText());
+                //String tempPhrase = (String) phraseToSave.getText();
+                addPhrase(phraseToSave.getText().toString());
+            }
+        });
+
         ListView listView = (ListView) rView.findViewById(R.id.listview_forecast);
         listView.setAdapter(topAdapter);
 
         return rView;
+    }
+
+    private long addPhrase(String phrase) {
+
+        long phraseId;
+
+        //Lägg till senare för att hindra användaren från att lägga till flera av samma fras;
+        //Cursor phraseCursor;
+
+        ContentValues phraseValues = new ContentValues();
+
+        phraseValues.put(TransDBcontract.PhrasesDefs.PHRASE_COL, phrase);
+        Context lContext;
+        if (this.isAdded()) {
+            lContext = getActivity();
+        } else {
+            Log.v("CONTEXT ERR", "fragment not added");
+            return -1;
+        }
+
+
+        Uri insertedUri = lContext.getContentResolver().insert(
+                TransDBcontract.PhrasesDefs.CONTENT_URI,
+                phraseValues
+
+        );
+
+        phraseId = ContentUris.parseId(insertedUri);
+
+        return phraseId;
     }
 
 }

@@ -13,6 +13,28 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="Phrase to save"
+            android:ems="10"
+            android:id="@+id/textPhrase"
+            android:layout_weight="0.12" />
+
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/savePhraseButton"
+            android:layout_weight="0.12" />
+    </LinearLayout>
+
     <ListView
         android:id="@+id/listview_forecast"
         android:layout_width="match_parent"
