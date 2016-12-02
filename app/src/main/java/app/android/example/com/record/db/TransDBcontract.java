@@ -32,6 +32,10 @@ public class TransDBcontract {
         public static Uri buildUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+
+//        public static Uri buildPhraseUri() {
+//            //return CONTENT_URI.buildUpon().appendPath(langsetting).build();
+//        }
     }
 
 }

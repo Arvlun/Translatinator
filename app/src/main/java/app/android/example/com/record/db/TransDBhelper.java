@@ -13,7 +13,7 @@ import app.android.example.com.record.db.TransDBcontract;
 
 public class TransDBhelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "trans.db";
 
@@ -25,7 +25,7 @@ public class TransDBhelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         final String SQL_CREATE_TOPLIST_TABLE = "CREATE TABLE " + TransDBcontract.PhrasesDefs.TABLE_NAME + " (" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT, " + TransDBcontract.PhrasesDefs.PHRASE_COL + " TEXT NOT NULL" +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " + TransDBcontract.PhrasesDefs.PHRASE_COL + " TEXT NOT NULL" +
                 " );";
         Log.v("DB LOG", "onCreate- sqlcreateSTR = " + SQL_CREATE_TOPLIST_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_TOPLIST_TABLE);

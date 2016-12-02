@@ -67,11 +67,11 @@ public class TransDBProvider extends ContentProvider {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         String[] projection = {
-                "ID",
-                "phrase"
+                "_id",
+                "phrases"
         };
 
-        String sortOrder = "phrase DESC";
+        String sortOrder = "phrases DESC";
 
         String selection = "phrase" + " =?";
         //String[] selectionArgs = {
@@ -80,7 +80,7 @@ public class TransDBProvider extends ContentProvider {
                 projection,                               // The columns to return
                 null,                                       // The columns for the WHERE clause
                 null,                                       // The values for the WHERE clause
-                "phrase",                                     // don't group the rows
+                null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 sortOrder                                 // The sort order
         );
@@ -129,16 +129,34 @@ public class TransDBProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-
+        getContext().getContentResolver().notifyChange(uri, null);
         return returnUri;
     }
 
+    //TODO: lägg till
     @Override
     public int delete(Uri uri, String selection, String[] selectionsArgs) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+        int rowsDeleted;
+
+        switch (matcher.match(uri)) {
+            case PHRASE: {
+                Log.v("DELETE", "DELETE PHRASE");
+                rowsDeleted = db.delete(TransDBcontract.PhrasesDefs.TABLE_NAME, selection, selectionsArgs);
+                break;
+            }
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
         return 0;
     }
 
+    //TODO: Fixa så det är möjligt att ändra
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionsArgs) {
 
