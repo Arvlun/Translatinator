@@ -83,15 +83,15 @@ public class ToplistFragment extends Fragment implements LoaderManager.LoaderCal
         ListView listView = (ListView) rView.findViewById(R.id.listview_forecast);
         listView.setAdapter(phraseAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-                int id = cursor.getInt(cursor.getColumnIndex("_id"));
-                deletePhrase(id);
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+//                int id = cursor.getInt(cursor.getColumnIndex("_id"));
+//                deletePhrase(id);
+//            }
+//        });
 
         return rView;
     }
@@ -127,7 +127,7 @@ public class ToplistFragment extends Fragment implements LoaderManager.LoaderCal
         );
 
         phraseId = ContentUris.parseId(insertedUri);
-
+        getLoaderManager().restartLoader(0, null, this);
         return phraseId;
     }
 
@@ -162,7 +162,7 @@ public class ToplistFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         Uri phraseUri = TransDBcontract.PhrasesDefs.CONTENT_URI;
-        //TODO: ändra så att det inte är massa null som skickas in --
+        //TODO: ändra så att det inte är massa null som skickas in -- lägg till skickt mellan dbprovider och fragmentet?
         CursorLoader cursorLoader = new CursorLoader(getActivity(), phraseUri, null, null, null, null);
         return cursorLoader;
     }

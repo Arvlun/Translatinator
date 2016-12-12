@@ -33,8 +33,6 @@ public class TransDBhelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        // This database is only a cache for online data, so its upgrade policy is
-        // to simply to discard the data and start over
         // Borde ändra när funktionaliteten är klar så att det inte tar bort allt vid uppdatering
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TransDBcontract.PhrasesDefs.TABLE_NAME);
         onCreate(sqLiteDatabase);

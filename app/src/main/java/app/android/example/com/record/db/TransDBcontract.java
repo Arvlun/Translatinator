@@ -16,7 +16,7 @@ public class TransDBcontract {
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-    // Mest för ifall vi läggar till mer funktioner
+    //PHRASElist uri
     public static final String PATH_PHRASE = "phrase";
 
     public static final class PhrasesDefs implements BaseColumns {

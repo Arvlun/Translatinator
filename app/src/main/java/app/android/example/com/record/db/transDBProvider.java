@@ -153,7 +153,7 @@ public class TransDBProvider extends ContentProvider {
         if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        return 0;
+        return rowsDeleted;
     }
 
     //TODO: Fixa så det är möjligt att ändra
